@@ -73,8 +73,12 @@
                 </div>
                 
             </div>
+        </div>        
+        <div class="text-center mt-3">
+            <p id="visitor-count" style="font-weight: bold;font-size: 0.8rem;"></p>
         </div>
     </div>
+
 
     <script>
         $(document).ready(function() {
@@ -105,6 +109,14 @@
                     }
                     $("#data-body").html(tableContent);
                 });
+
+                // Penghitung jumlah pengunjung per hari
+                    const today = new Date().toISOString().split('T')[0]; // Format YYYY-MM-DD
+                    const visitorKey = `visitor_${today}`;
+                    let visitorCount = localStorage.getItem(visitorKey) || 0;
+                    visitorCount++;
+                    localStorage.setItem(visitorKey, visitorCount);
+                    $("#visitor-count").text(`Jumlah pengunjung hari ini: ${visitorCount}`);
         });
     </script>
     <footer class="text-center" style="
