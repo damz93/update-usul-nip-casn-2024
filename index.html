@@ -37,6 +37,11 @@
         .blink {
             animation: blink 2s infinite;
         }
+        @media (max-width: 768px) {  /* Untuk HP dan Tablet */
+            table td, table th {
+                font-size: 0.7rem !important;
+            }
+        }
 
     </style>
 
@@ -56,9 +61,10 @@
                 <table class="table table-bordered table-hover table-striped">
                     <thead class="table-primary">
                         <tr>
-                            <th>∑ Formasi</th>
-                            <th>∑ Lulus</th>
-                            <th>∑ Usul Masuk</th>
+                            <th>Instansi</th>
+                            <th>Formasi</th>
+                            <th>Lulus</th>
+                            <th>Usul Masuk</th>
                             <th>BTS</th>
                             <th>TMS</th>
                             <th>Pertek Selesai</th>
@@ -95,40 +101,52 @@
                         // alert (updateInfo)
                     }
                     
+                    // let tableContent = "";
+                    // if (rows.length > 45) {
+                    //     const cols = rows[45].split(",");
+                    //     tableContent = `<tr>
+                    //         <td>${cols[2]}</td>
+                    //         <td>${cols[3]}</td>
+                    //         <td>${cols[4]}</td>
+                    //         <td>${cols[5]}</td>
+                    //         <td>${cols[6]}</td>
+                    //         <td>${cols[7]}</td>
+                    //     </tr>`;
+                    // }
+                    
                     let tableContent = "";
-                    if (rows.length > 464) {
-                        const cols = rows[45].split(",");
-                        tableContent = `<tr>
-                            <td>${cols[2]}</td>
-                            <td>${cols[3]}</td>
-                            <td>${cols[4]}</td>
-                            <td>${cols[5]}</td>
-                            <td>${cols[6]}</td>
-                            <td>${cols[7]}</td>
-                        </tr>`;
-                    }
+                    const indices = [5, 45]; // Indeks yang ingin diambil
+
+                    indices.forEach(index => {
+                        if (rows.length > index) {
+                            const cols = rows[index].split(",");
+                            tableContent += `<tr>
+                                <td style="text-align:left">
+                                    ${cols[1] ? "Kemenparekraf" : "Semua Instansi"}
+                                </td>
+                                <td style="text-align:right">${cols[2]}</td>
+                                <td style="text-align:right">${cols[3]}</td>
+                                <td style="text-align:right">${cols[4]}</td>
+                                <td style="text-align:right">${cols[5]}</td>
+                                <td style="text-align:right">${cols[6]}</td>
+                                <td style="text-align:right">${cols[7]}</td>
+                            </tr>`;
+                        }
+                    });
                     $("#data-body").html(tableContent);
                 });
-
-                // Penghitung jumlah pengunjung per hari
-                    const today = new Date().toISOString().split('T')[0]; // Format YYYY-MM-DD
-                    const visitorKey = `visitor_${today}`;
-                    let visitorCount = localStorage.getItem(visitorKey) || 0;
-                    visitorCount++;
-                    localStorage.setItem(visitorKey, visitorCount);
-                    $("#visitor-count").text(`Jumlah pengunjung hari ini: ${visitorCount}`);
-        });
+            });
     </script>
     <footer class="text-center" style="
-    background-color: #1a619f; 
-    color: white; 
-    font-size: 0.8rem; 
-    width: 100%; 
-    position: fixed; 
-    bottom: 0;
-    left: 0;">
-    <p class="m-3">Dibuat dengan ganteng <a href="https://damz93.github.io/dedy-a-muzawwir" target="_blank" style="color: #FFD700; text-decoration: none; font-weight: bold;">Dedy A Muzawwir</a></p>
-</footer>
+        background-color: #1a619f; 
+        color: white; 
+        font-size: 0.8rem; 
+        width: 100%; 
+        position: fixed; 
+        bottom: 0;
+        left: 0;">
+        <p class="m-3">Dibuat dengan ganteng <a href="https://damz93.github.io/dedy-a-muzawwir" target="_blank" style="color: #bea411; text-decoration: none; font-weight: bold;">Dedy A Muzawwir</a></p>
+    </footer>
 
 </body>
 
