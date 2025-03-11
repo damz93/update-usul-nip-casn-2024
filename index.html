@@ -49,11 +49,17 @@
 <body>
     <div style="background-color:aliceblue;width: 100%; text-align: center;">
         <div style="background-color:aliceblue; position: sticky; top: 0; z-index: 1000;">
-            <h2 class="text-center pt-3" style="background-color:rgb(26, 97, 160);color:white;font-weight:bold;">
-                <a href="#"class="no-style"><img title="Kembali ke Menu Utama" src="https://upload.wikimedia.org/wikipedia/commons/d/dd/LOGO_KEMENPAREKRAF_%28BAPAREKRAF%29.png" height="80px" width="auto"></a><br>UPDATE USUL NIP
-            <p class="text-center pb-3" style="color:white;font-weight:120;font-size: 1.1rem;">
-                CPNS Kementerian Pariwisata dan Ekonomi Kreatif/Badan Pariwisata dan Ekonomi Kreatif 2024   
-            </p></h2>
+            <h2 class="text-center pt-3" style="background-color:rgb(14, 36, 55);color:white;font-weight:bold;">
+                <a target="_blank" href="https://www.instagram.com/kemenpar.ri/"class="no-style"><img title="KEMENPAREKRAF/BAPAREKRAF" src="https://upload.wikimedia.org/wikipedia/commons/d/dd/LOGO_KEMENPAREKRAF_%28BAPAREKRAF%29.png" height="80px" width="auto"></a>
+
+                &nbsp;<a target="_blank" href="https://www.instagram.com/setjen.klhk/" class="no-style"><img title="KLHK" src="https://upload.wikimedia.org/wikipedia/commons/6/63/Lambang_Kementerian_Lingkungan_Hidup_dan_Kehutanan.png" height="80px" width="auto"></a>
+
+                &nbsp;<a target="_blank" href="https://www.instagram.com/dpdri"class="no-style"><img title="Dewan Perwakilan Daerah - RI" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Coat_of_arms_of_the_Regional_Representative_Council_of_Indonesia.svg/1200px-Coat_of_arms_of_the_Regional_Representative_Council_of_Indonesia.svg.png" height="80px" width="auto"></a>
+            
+                <br>UPDATE USUL NIP CPNS
+                <p class="text-center pb-3" style="color:white;font-weight:120;font-size: 1.1rem;">
+                    KEMENPAREKRAF/BAPAREKRAF, KLHK, SETJEN DPD T.A 2024
+                </p></h2>
         </div>
         <div class="container mt-4">
             <h5 class="text-center text-danger mb-4 blink" style="font-weight: bold;text-transform: capitalize;" id="update-info">Memuat data...</h5>
@@ -91,54 +97,83 @@
             const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcB7YBFlcroApqO1lxmKMkrOmhbkmx6NugFMI17HM0Gb-aAPgB6TSxv7VB54o43hAX-tV0-cnjtXu/pub?output=csv";
             
             fetch(sheetUrl)
-                .then(response => response.text())
-                .then(data => {
-                    const rows = data.split("\n");
-                    if (rows.length > 1) {
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split("\n").map(row => row.trim()); // Bersihkan spasi & karakter tersembunyi
+                if (rows.length > 1) {
                         const updateInfo = rows[0].split(",")[1]; // Kolom 2, Baris 1
-                        // $("#update-info").text(updateInfo);
                         $("#update-info").text(updateInfo.toLowerCase()).css("text-transform", "capitalize");
-                        // alert (updateInfo)
                     }
-                    
-                    // let tableContent = "";
-                    // if (rows.length > 45) {
-                    //     const cols = rows[45].split(",");
-                    //     tableContent = `<tr>
-                    //         <td>${cols[2]}</td>
-                    //         <td>${cols[3]}</td>
-                    //         <td>${cols[4]}</td>
-                    //         <td>${cols[5]}</td>
-                    //         <td>${cols[6]}</td>
-                    //         <td>${cols[7]}</td>
-                    //     </tr>`;
-                    // }
-                    
-                    let tableContent = "";
-                    const indices = [5, 45]; // Indeks yang ingin diambil
-
-                    indices.forEach(index => {
-                        if (rows.length > index) {
-                            const cols = rows[index].split(",");
-                            tableContent += `<tr>
-                                <td style="text-align:left">
-                                    ${cols[1] ? "Kemenparekraf" : "Semua Instansi"}
-                                </td>
-                                <td style="text-align:right">${cols[2]}</td>
-                                <td style="text-align:right">${cols[3]}</td>
-                                <td style="text-align:right">${cols[4]}</td>
-                                <td style="text-align:right">${cols[5]}</td>
-                                <td style="text-align:right">${cols[6]}</td>
-                                <td style="text-align:right">${cols[7]}</td>
-                            </tr>`;
-                        }
-                    });
-                    $("#data-body").html(tableContent);
+                
+                let tableContent = "";
+                const targets = [
+                    { keyword: "Kementerian Pariwisata dan Ekonomi Kreatif/Badan Pariwisata dan Ekonomi Kreatif", short: "Kemenparekraf/Baparekraf" },
+                    { keyword: "Kementerian Lingkungan Hidup dan Kehutanan", short: "KLHK" },
+                    { keyword: "Setjen Dewan Perwakilan Daerah", short: "Setjen DPD" }
+                ];
+                
+                let found = { "Kemenparekraf/Baparekraf": false, "KLHK": false }; // Untuk cek apakah sudah ditemukan
+                
+                // Looping untuk mencari kementerian
+                targets.forEach(target => {
+                    const targetIndex = rows.findIndex(row => row.includes(target.keyword));
+    
+                    if (targetIndex !== -1) {
+                        found[target.short] = true; // Tandai bahwa sudah ditemukan
+                        const cols = rows[targetIndex].split(",");
+                        tableContent += `<tr>    
+                            <td style="text-align:left">${target.short}</td>
+                            <td style="text-align:right">${cols[2] || "-"}</td>
+                            <td style="text-align:right">${cols[3] || "-"}</td>
+                            <td style="text-align:right">${cols[4] || "-"}</td>
+                            <td style="text-align:right">${cols[5] || "-"}</td>
+                            <td style="text-align:right">${cols[6] || "-"}</td>
+                            <td style="text-align:right">${cols[7] || "-"}</td>
+                        </tr>`;
+                    }
                 });
+    
+                // Tambahkan baris ke-5 dengan "Semua Instansi"
+                if (rows.length > 5) {
+                    const cols = rows[5].split(",");
+                    tableContent += `<tr>    
+                        <td style="text-align:left">Semua Instansi</td>
+                        <td style="text-align:right">${cols[2] || "-"}</td>
+                        <td style="text-align:right">${cols[3] || "-"}</td>
+                        <td style="text-align:right">${cols[4] || "-"}</td>
+                        <td style="text-align:right">${cols[5] || "-"}</td>
+                        <td style="text-align:right">${cols[6] || "-"}</td>
+                        <td style="text-align:right">${cols[7] || "-"}</td>
+                    </tr>`;
+                }
+    
+                // Jika kementerian tidak ditemukan, tambahkan baris default
+                if (!found["Kemenparekraf/Baparekraf"]) {
+                    tableContent += `<tr>
+                        <td style="text-align:left">Tidak ditemukan</td>
+                        <td colspan="6" style="text-align:center">-</td>
+                    </tr>`;
+                }
+                if (!found["KLHK"]) {
+                    tableContent += `<tr>
+                        <td style="text-align:left">Tidak ditemukan</td>
+                        <td colspan="6" style="text-align:center">-</td>
+                    </tr>`;
+                }
+                if (!found["Setjen DPD"]) {
+                    tableContent += `<tr>
+                        <td style="text-align:left">Tidak ditemukan</td>
+                        <td colspan="6" style="text-align:center">-</td>
+                    </tr>`;
+                }
+    
+                $("#data-body").html(tableContent); // Masukkan ke dalam tabel
             });
+        });
     </script>
+    
     <footer class="text-center" style="
-        background-color: #1a619f; 
+        background-color: rgb(14, 36, 55); 
         color: white; 
         font-size: 0.8rem; 
         width: 100%; 
