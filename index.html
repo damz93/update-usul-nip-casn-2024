@@ -58,14 +58,14 @@
             
                 <br>UPDATE USUL NIP CPNS
                 <p class="text-center pb-3" style="color:white;font-weight:120;font-size: 1.1rem;">
-                    KEMENPAREKRAF/BAPAREKRAF, KLHK, SETJEN DPD T.A 2024
+                    KEMENPAREKRAF/BAPAREKRAF, KLHK, SETJEN DPD T.A. 2024
                 </p></h2>
         </div>
         <div class="container mt-4">
             <h5 class="text-center text-danger mb-4 blink" style="font-weight: bold;text-transform: capitalize;" id="update-info">Memuat data...</h5>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped">
-                    <thead class="table-primary">
+                    <thead class="table-dark">
                         <tr>
                             <th>Instansi</th>
                             <th>Formasi</th>
@@ -104,7 +104,6 @@
                         const updateInfo = rows[0].split(",")[1]; // Kolom 2, Baris 1
                         $("#update-info").text(updateInfo.toLowerCase()).css("text-transform", "capitalize");
                     }
-<<<<<<< HEAD
                 
                 let tableContent = "";
                 const targets = [
@@ -113,7 +112,7 @@
                     { keyword: "Setjen Dewan Perwakilan Daerah", short: "Setjen DPD" }
                 ];
                 
-                let found = { "Kemenparekraf/Baparekraf": false, "KLHK": false }; // Untuk cek apakah sudah ditemukan
+                let found = { "Kemenparekraf/Baparekraf": false, "KLHK": false, "Setjen DPD": false }; // Cek apakah sudah ditemukan
                 
                 // Looping untuk mencari kementerian
                 targets.forEach(target => {
@@ -132,42 +131,6 @@
                             <td style="text-align:right">${cols[7] || "-"}</td>
                         </tr>`;
                     }
-=======
-                    
-                    // let tableContent = "";
-                    // if (rows.length > 45) {
-                    //     const cols = rows[45].split(",");
-                    //     tableContent = `<tr>
-                    //         <td>${cols[2]}</td>
-                    //         <td>${cols[3]}</td>
-                    //         <td>${cols[4]}</td>
-                    //         <td>${cols[5]}</td>
-                    //         <td>${cols[6]}</td>
-                    //         <td>${cols[7]}</td>
-                    //     </tr>`;
-                    // }
-                    
-                    let tableContent = "";
-                    const indices = [5, 32]; // Indeks yang ingin diambil
-
-                    indices.forEach(index => {
-                        if (rows.length > index) {
-                            const cols = rows[index].split(",");
-                            tableContent += `<tr>
-                                <td style="text-align:left">
-                                    ${cols[1] ? "Kemenparekraf" : "Semua Instansi"}
-                                </td>
-                                <td style="text-align:right">${cols[2]}</td>
-                                <td style="text-align:right">${cols[3]}</td>
-                                <td style="text-align:right">${cols[4]}</td>
-                                <td style="text-align:right">${cols[5]}</td>
-                                <td style="text-align:right">${cols[6]}</td>
-                                <td style="text-align:right">${cols[7]}</td>
-                            </tr>`;
-                        }
-                    });
-                    $("#data-body").html(tableContent);
->>>>>>> 2eb1ebd00574cf3d9fbfad4a4109f5756a5b30f6
                 });
     
                 // Tambahkan baris ke-5 dengan "Semua Instansi"
@@ -184,30 +147,21 @@
                     </tr>`;
                 }
     
-                // Jika kementerian tidak ditemukan, tambahkan baris default
-                if (!found["Kemenparekraf/Baparekraf"]) {
-                    tableContent += `<tr>
-                        <td style="text-align:left">Tidak ditemukan</td>
-                        <td colspan="6" style="text-align:center">-</td>
-                    </tr>`;
-                }
-                if (!found["KLHK"]) {
-                    tableContent += `<tr>
-                        <td style="text-align:left">Tidak ditemukan</td>
-                        <td colspan="6" style="text-align:center">-</td>
-                    </tr>`;
-                }
-                if (!found["Setjen DPD"]) {
-                    tableContent += `<tr>
-                        <td style="text-align:left">Tidak ditemukan</td>
-                        <td colspan="6" style="text-align:center">-</td>
-                    </tr>`;
-                }
+                // Jika tidak ditemukan, tambahkan baris default
+                Object.keys(found).forEach(key => {
+                    if (!found[key]) {
+                        tableContent += `<tr>
+                            <td style="text-align:left">Tidak ditemukan</td>
+                            <td colspan="6" style="text-align:center">-</td>
+                        </tr>`;
+                    }
+                });
     
                 $("#data-body").html(tableContent); // Masukkan ke dalam tabel
             });
         });
     </script>
+    
     
     <footer class="text-center" style="
         background-color: rgb(14, 36, 55); 
