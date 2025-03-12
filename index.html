@@ -3,31 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Usul NIP KEMENPAREKRAF/BAPAREKRAF, KLHK, SETJEN DPD T.A. 2024 | by Dedy A Muzawwir</title>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/5/5a/2022TimnasGarudaLogo.png" type="image/png">
+    <title>Update Usul NIP CPNS | by Dedy A Muzawwir</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/8/87/Pegawai_Negeri_Sipil.svg" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
     <style>
         body { 
             font-family: 'Poppins', sans-serif; 
-            display: flex;
-            justify-content: center;
-            /* align-items: center; */
-            height: 100vh;
-            margin: 0;
+            background-color: #f8f9fa; 
         }
-        .btn:hover{
-            background-color: rgb(17, 87, 17);
-            scale: 1.1;
-            font-size: large;
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-custom {
+            background-color: green; 
             color: white;
+            transition: all 0.3s ease-in-out;
         }
-        .btn{
-            text-decoration: none;
-            background-color: green;
-            color: white;
+
+        .btn-custom:hover {
+            background-color: darkgreen;
+            transform: scale(1.05);
         }
+
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        input:focus {
+            border-color: green !important;
+            box-shadow: 0 0 10px rgba(0, 128, 0, 0.5) !important;
+        }
+
         @keyframes blink {
             25% { opacity: 1; }
             50% { opacity: 0; }
@@ -37,143 +53,167 @@
         .blink {
             animation: blink 2s infinite;
         }
-        @media (max-width: 768px) {  /* Untuk HP dan Tablet */
-            table td, table th {
-                font-size: 0.5rem !important;
+
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+            .container {
+                /* padding: 15px;    */
+            }
+            table td, table th { font-size: 0.8rem; }
+            .d-flex {
+                flex-direction: column;
+                align-items: center;
             }
         }
-
     </style>
-
 </head>
 <body>
-    <div style="background-color:aliceblue;width: 100%; text-align: center;">
-        <div style="background-color:aliceblue; position: sticky; top: 0; z-index: 1000;">
-            <h2 class="text-center pt-3" style="background-color:rgb(14, 36, 55);color:white;font-weight:bold;">
-                <a target="_blank" href="https://www.instagram.com/kemenpar.ri/"class="no-style"><img title="KEMENPAREKRAF/BAPAREKRAF" src="https://upload.wikimedia.org/wikipedia/commons/d/dd/LOGO_KEMENPAREKRAF_%28BAPAREKRAF%29.png" height="80px" width="auto"></a>
+    <div style="background-color:aliceblue; position: sticky; top: 0; z-index: 1000;">
+        <h2 class="text-center pt-3" style="background-color:#0a2b75;color:white;font-weight:bold;">
+            <a target="_blank" href="https://korpri.go.id/"class="no-style"><img title="KORPRI" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Pegawai_Negeri_Sipil.svg" height="80px" width="auto"></a>
+            <br>UPDATE USUL NIP
+            <p class="text-center pb-3" style="color:gold;font-weight:120;font-size: 1.1rem;">
+                CPNS DAN PPPK T.A. 2024
+            </p></h2>
+    </div>
+<div class="container mt-4">
 
-                &nbsp;<a target="_blank" href="https://www.instagram.com/setjen.klhk/" class="no-style"><img title="KLHK" src="https://upload.wikimedia.org/wikipedia/commons/6/63/Lambang_Kementerian_Lingkungan_Hidup_dan_Kehutanan.png" height="80px" width="auto"></a>
-
-                &nbsp;<a target="_blank" href="https://www.instagram.com/dpdri"class="no-style"><img title="Dewan Perwakilan Daerah - RI" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Coat_of_arms_of_the_Regional_Representative_Council_of_Indonesia.svg/1200px-Coat_of_arms_of_the_Regional_Representative_Council_of_Indonesia.svg.png" height="80px" width="auto"></a>
-            
-                <br>UPDATE USUL NIP CPNS
-                <p class="text-center pb-3" style="color:white;font-weight:120;font-size: 1.1rem;">
-                    KEMENPAREKRAF/BAPAREKRAF, KLHK, SETJEN DPD T.A. 2024
-                </p></h2>
+    <div class="row mb-3">
+        <div class="col-md-6 col-lg-4 mb-3">
+            <label for="sheetSelect" class="form-label">Pilih Kategori:</label>
+            <select id="sheetSelect" class="form-select" onchange="fokusKe()">
+                <option value="1573445040">CPNS</option>
+                <option value="0">PPPK GURU</option>
+                <option value="1791141717">PPPK TEKNIS</option>
+                <option value="620150808">PPPK TENAGA KESEHATAN</option>
+            </select>
         </div>
-        <div class="container mt-4">
-            <h5 class="text-center text-danger mb-4 blink" style="font-weight: bold;text-transform: capitalize;" id="update-info">Memuat data...</h5>
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Instansi</th>
-                            <th>Formasi</th>
-                            <th>Lulus</th>
-                            <th>Usul Masuk</th>
-                            <th>BTS</th>
-                            <th>TMS</th>
-                            <th>Pertek Selesai</th>
-                        </tr>
-                    </thead>
-                    <tbody id="data-body">
-                    </tbody>
-                </table>
-                <div class="text-center mt-3" style="font-size: 0.9rem;">
-                    <p>Untuk melihat seluruh instansi: <a class="btn btn-success" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcB7YBFlcroApqO1lxmKMkrOmhbkmx6NugFMI17HM0Gb-aAPgB6TSxv7VB54o43hAX-tV0-cnjtXu/pubhtml#" target="_blank">Klik di sini</a></p>
-                  
-                </div>
-                
-            </div>
-        </div>        
-        <div class="text-center mt-3">
-            <p id="visitor-count" style="font-weight: bold;font-size: 0.8rem;"></p>
+    
+        <div class="col-md-6 col-lg-8 align-self-end">
+            <h5 class="text-danger mb-0 blink fw-bold text-md-end" id="update-info">Memuat data...</h5>
         </div>
     </div>
+    
 
+    <input type="text" id="searchInput" autofocus autocomplete="off" class="form-control mb-3" placeholder="🔍 Masukkan nama instansi..." onkeyup="filterTable()">
 
-    <script>
-        $(document).ready(function() {
-            const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcB7YBFlcroApqO1lxmKMkrOmhbkmx6NugFMI17HM0Gb-aAPgB6TSxv7VB54o43hAX-tV0-cnjtXu/pub?output=csv";
-            
-            fetch(sheetUrl)
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Instansi</th>
+                    <th>Formasi</th>
+                    <th>Lulus</th>
+                    <th>Usul Masuk</th>
+                    <th>BTS</th>
+                    <th>TMS</th>
+                    <th>Pertek Selesai</th>
+                </tr>
+            </thead>
+            <tbody id="data-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function loadSheet(gid) {
+        const sheetUrl = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcB7YBFlcroApqO1lxmKMkrOmhbkmx6NugFMI17HM0Gb-aAPgB6TSxv7VB54o43hAX-tV0-cnjtXu/pub?output=csv&gid=${gid}`;
+
+        fetch(sheetUrl)
             .then(response => response.text())
-            .then(data => {
-                const rows = data.split("\n").map(row => row.trim()); // Bersihkan spasi & karakter tersembunyi
-                if (rows.length > 1) {
-                        const updateInfo = rows[0].split(",")[1]; // Kolom 2, Baris 1
-                        $("#update-info").text(updateInfo.toLowerCase()).css("text-transform", "capitalize");
+            .then(csvData => {
+                const parsedData = Papa.parse(csvData, { skipEmptyLines: true }).data;
+                let updateInfo;
+                let cekApa;
+
+                if (parsedData.length > 1) {
+                    if (gid === '1573445040') {
+                        updateInfo = parsedData[0][1] || "-";
+                        cekApa = "Semua Instansi (CPNS)";
+                    } else {
+                        updateInfo = parsedData[0][0] || "-";
+                        cekApa = gid === '0' ? "Semua Instansi (PPPK GURU)" :
+                                 gid === '1791141717' ? "Semua Instansi (PPPK TEKNIS)" :
+                                 "Semua Instansi (PPPK TENAGA KESEHATAN)";
                     }
-                
-                let tableContent = "";
-                const targets = [
-                    { keyword: "Kementerian Pariwisata dan Ekonomi Kreatif/Badan Pariwisata dan Ekonomi Kreatif", short: "Kemenparekraf/Baparekraf" },
-                    { keyword: "Kementerian Lingkungan Hidup dan Kehutanan", short: "KLHK" },
-                    { keyword: "Setjen Dewan Perwakilan Daerah", short: "Setjen DPD" }
-                ];
-                
-                let found = { "Kemenparekraf/Baparekraf": false, "KLHK": false, "Setjen DPD": false }; // Cek apakah sudah ditemukan
-                
-                // Looping untuk mencari kementerian
-                targets.forEach(target => {
-                    const targetIndex = rows.findIndex(row => row.includes(target.keyword));
-    
-                    if (targetIndex !== -1) {
-                        found[target.short] = true; // Tandai bahwa sudah ditemukan
-                        const cols = rows[targetIndex].split(",");
-                        tableContent += `<tr>    
-                            <td style="text-align:left">${target.short}</td>
-                            <td style="text-align:right">${cols[2] || "-"}</td>
-                            <td style="text-align:right">${cols[3] || "-"}</td>
-                            <td style="text-align:right">${cols[4] || "-"}</td>
-                            <td style="text-align:right">${cols[5] || "-"}</td>
-                            <td style="text-align:right">${cols[6] || "-"}</td>
-                            <td style="text-align:right">${cols[7] || "-"}</td>
-                        </tr>`;
-                    }
-                });
-    
-                // Tambahkan baris ke-5 dengan "Semua Instansi"
-                if (rows.length > 5) {
-                    const cols = rows[5].split(",");
-                    tableContent += `<tr>    
-                        <td style="text-align:left">Semua Instansi</td>
-                        <td style="text-align:right">${cols[2] || "-"}</td>
-                        <td style="text-align:right">${cols[3] || "-"}</td>
-                        <td style="text-align:right">${cols[4] || "-"}</td>
-                        <td style="text-align:right">${cols[5] || "-"}</td>
-                        <td style="text-align:right">${cols[6] || "-"}</td>
-                        <td style="text-align:right">${cols[7] || "-"}</td>
-                    </tr>`;
+                    // document.getElementById("update-info").innerText = updateInfo.toLowerCase();
+                    document.getElementById("update-info").innerText = updateInfo
+                    .toLowerCase()
+                    .split(" ")
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ");
+
+
                 }
-    
-                // Jika tidak ditemukan, tambahkan baris default
-                Object.keys(found).forEach(key => {
-                    if (!found[key]) {
-                        tableContent += `<tr>
-                            <td style="text-align:left">Tidak ditemukan</td>
-                            <td colspan="6" style="text-align:center">-</td>
+
+                let tableContent = "";
+                let allRows = "";
+
+                parsedData.forEach((cols, i) => {
+                    if (i === 0) return;
+
+                    if (cols.length >= 8) {
+                        let row = `<tr class="instansi-row" style="display: none;">
+                            <td>${cols[1] === "" ? cekApa : cols[1]}</td>
+                            <td style="text-align:right">${cols[2]}</td>
+                            <td style="text-align:right">${cols[3]}</td>
+                            <td style="text-align:right">${cols[4]}</td>
+                            <td style="text-align:right">${cols[5]}</td>
+                            <td style="text-align:right">${cols[6]}</td>
+                            <td style="text-align:right">${cols[7]}</td>
                         </tr>`;
+
+                        allRows += row;
+                        if (cekApa === "Semua Instansi (CPNS)"){
+                            if (i === 4) tableContent += row.replace('style="display: none;"', 'style=""');
+                        } else {
+                            if (i === 3) tableContent += row.replace('style="display: none;"', 'style=""');
+                        }
                     }
                 });
-    
-                $("#data-body").html(tableContent); // Masukkan ke dalam tabel
+
+                document.getElementById("data-body").innerHTML = tableContent + allRows;
             });
-        });
-    </script>
-    
-    
-    <footer class="text-center" style="
-        background-color: rgb(14, 36, 55); 
+    }
+
+    function filterTable() {
+        let input = document.getElementById("searchInput").value.toLowerCase();
+        let rows = document.querySelectorAll("#data-body .instansi-row");
+
+        let selectedGid = document.getElementById("sheetSelect").value;
+
+        if (input === "") {
+            rows.forEach((row, index) => {
+                row.style.display = selectedGid === '1573445040' ? (index === 4 ? "" : "none") : (index === 3 ? "" : "none");
+            });
+        } else {
+            rows.forEach(row => {
+                let instansi = row.cells[0].innerText.toLowerCase();
+                row.style.display = instansi.includes(input) ? "" : "none";
+            });
+        }
+    }
+
+    document.getElementById("sheetSelect").addEventListener("change", function() {
+        loadSheet(this.value);
+    });
+
+    loadSheet("1573445040");
+    function fokusKe(){
+         document.getElementById("searchInput").focus();
+    }
+</script>
+<footer class="text-center" style="
+        background-color: #06070d; 
         color: white; 
         font-size: 0.8rem; 
         width: 100%; 
         position: fixed; 
         bottom: 0;
         left: 0;">
-        <p class="m-3">Dibuat dengan ganteng <a href="https://damz93.github.io/dedy-a-muzawwir" target="_blank" style="color: #bea411; text-decoration: none; font-weight: bold;">Dedy A Muzawwir</a></p>
+        <p class="m-3">Dibuat dengan ganteng <a href="https://damz93.github.io/dedy-a-muzawwir" target="_blank" style="color: #bea411; text-decoration: none; font-weight: bold;">DAMZ</a></p>
     </footer>
-
 </body>
-
 </html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Rekrutmen</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <label for="sheetSelect">Pilih Kategori:</label>
+    <select id="sheetSelect">
+        <option value="1573445040">CPNS</option>
+        <option value="0">PPPK GURU</option>
+        <option value="1791141717">PPPK TEKNIS</option>
+        <option value="620150808">PPPK TENAGA KESEHATAN</option>
+    </select>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Instansi</th>
+                <th>Jabatan</th>
+            </tr>
+        </thead>
+        <tbody id="data-body">
+            <tr><td colspan="3">Memuat data...</td></tr>
+        </tbody>
+    </table>
+
+    <script>
+        function loadSheet(gid) {
+            const sheetUrl = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcB7YBFlcroApqO1lxmKMkrOmhbkmx6NugFMI17HM0Gb-aAPgB6TSxv7VB54o43hAX-tV0-cnjtXu/pub?output=csv&gid=${gid}`;
+            
+            fetch(sheetUrl)
+                .then(response => response.text())
+                .then(csvData => {
+                    const parsedData = Papa.parse(csvData, {
+                        header: true,
+                        skipEmptyLines: true
+                    }).data;
+                    
+                    let tableContent = "";
+                    parsedData.forEach(row => {
+                        tableContent += `<tr>
+                            <td style="text-align:right">${row[2]}</td>
+			                        <td style="text-align:right">${row[3]}</td>
+			                        <td style="text-align:right">${row[4]}</td>
+                        </tr>`;
+                    });
+
+                    document.getElementById("data-body").innerHTML = tableContent;
+                })
+                .catch(error => console.error("Gagal mengambil data:", error));
+        }
+
+        document.getElementById("sheetSelect").addEventListener("change", function() {
+            loadSheet(this.value);
+        });
+
+        // Load default sheet (CPNS)
+        loadSheet("1573445040");
+    </script>
+</body>
+</html>
