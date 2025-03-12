@@ -1,219 +1,228 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Usul NIP CPNS | by Dedy A Muzawwir</title>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/8/87/Pegawai_Negeri_Sipil.svg" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Update Usul NIP CPNS | by Dedy A Muzawwir</title>
+		<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/8/87/Pegawai_Negeri_Sipil.svg" type="image/png">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+		<style>
+			body { 
+			font-family: 'Poppins', sans-serif;
+			/* background: url('https://matahari-textile.com/wp-content/uploads/2022/07/korpri-40s.jpg') no-repeat center center; */
+			background-size: cover;
+            background-color: aliceblue;
+			position: relative;
+			height: 100vh;
+			}
+			bodaay::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(27, 154, 222, 0.626); /* Transparansi di atas gambar */
+			backdrop-filter: blur(10px); /* Efek blur */
+			z-index: -1; /* Agar tetap di belakang konten */
+			}
+			.container {
+			background: rgba(255, 255, 255, 0.8); /* Transparan sedikit untuk kontainer */
+			border-radius: 15px;
+			padding: 20px;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+			}
+			.table {
+			border-radius: 10px;
+			overflow: hidden;
+			}
+			input:focus {
+			border-color: rgba(0, 0, 255, 0.734) !important;
+			box-shadow: 0 0 10px rgba(0, 60, 128, 0.5) !important;
+			}
+			@keyframes blink {
+			25% { opacity: 1; }
+			50% { opacity: 0; }
+			100% { opacity: 1; }
+			}
+			.blink {
+			animation: blink 3s infinite;
+			}
+			@media (max-width: 768px) {
+			.table-responsive {
+			overflow-x: auto;
+			}
+			table td, table th { 
+			font-size: 0.8rem; 
+			}
+			.text-danger{
+			font-size: 1rem;                
+			text-align: center;
+			}
+			.d-flex {
+			flex-direction: column;
+			align-items: center;
+			}
+			}
+		</style>
+	</head>
+	<body>
+		<div style="position: sticky; top: 0; z-index: 1000;">
+			<h2 class="text-center pt-3" style="background-color:#081644;color:white;font-weight:bold;">
+				<a target="_blank" href="https://korpri.go.id/"class="no-style"><img title="KORPRI" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Pegawai_Negeri_Sipil.svg" height="80px" width="auto"></a>
+				<br>UPDATE USUL NIP
+				<p class="text-center pb-3" style="color:gold;font-weight:120;font-size: 1.1rem;">
+					CPNS DAN PPPK T.A. 2024
+				</p>
+			</h2>
+		</div>
+		<div class="container mt-4">
+			<div class="row mb-3 mt-3">
+				<div class="col-md-8 col-lg-4">
+					<label for="sheetSelect" class="form-label">Pilih Kategori:</label>
+					<select id="sheetSelect" class="form-select" onchange="fokusKe()">
+						<option value="1573445040">CPNS</option>
+						<option value="0">PPPK GURU</option>
+						<option value="1791141717">PPPK TEKNIS</option>
+						<option value="620150808">PPPK TENAGA KESEHATAN</option>
+					</select>
+				</div>
+				<div class="col-md-4 col-lg-8 align-self-end">
+                    <h5 class="text-danger blink fw-bold text-md-end" id="update-info">Memuat data...</h5>
+				</div>
+			</div>
+            <input type="text" id="searchInput" autofocus autocomplete="off" class="form-control mb-3" placeholder="🔍 Masukkan nama instansi..." onkeyup="filterTable()">
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover table-striped">
+					<thead class="table-dark">
+						<tr class="text-center">
+							<th>Instansi</th>
+							<th>Formasi</th>
+							<th>Lulus</th>
+							<th>Usul Masuk</th>
+							<th>BTS</th>
+							<th>TMS</th>
+							<th>Pertek Selesai</th>
+						</tr>
+					</thead>
+					<tbody id="data-body"></tbody>
+				</table>
+			</div>
+		</div>
+		<script>
+			function loadSheet(gid) {
+			    const sheetUrl = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcB7YBFlcroApqO1lxmKMkrOmhbkmx6NugFMI17HM0Gb-aAPgB6TSxv7VB54o43hAX-tV0-cnjtXu/pub?output=csv&gid=${gid}`;
+			
+			    fetch(sheetUrl)
+			        .then(response => response.text())
+			        .then(csvData => {
+			            const parsedData = Papa.parse(csvData, { skipEmptyLines: true }).data;
+			            let updateInfo;
+			            let cekApa;
+			
+			            if (parsedData.length > 1) {
+			                if (gid === '1573445040') {
+			                    updateInfo = parsedData[0][1] || "-";
+			                    cekApa = "Semua Instansi (CPNS)";
+			                } else {
+			                    updateInfo = parsedData[0][0] || "-";
+			                    cekApa = gid === '0' ? "Semua Instansi (PPPK GURU)" :
+			                             gid === '1791141717' ? "Semua Instansi (PPPK TEKNIS)" :
+			                             "Semua Instansi (PPPK TENAGA KESEHATAN)";
+			                }
+			                // document.getElementById("update-info").innerText = updateInfo.toLowerCase();
+			                document.getElementById("update-info").innerText = updateInfo
+			                .toLowerCase()
+			                .split(" ")
+			                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+			                .join(" ");
+			
+			
+			            }
+			
+			            let tableContent = "";
+			            let allRows = "";
+			
+			            parsedData.forEach((cols, i) => {
+			                if (i === 0) return;
+			
+			                if (cols.length >= 8) {
+			                    let row = `<tr class="instansi-row" style="display: none;">
+			                        <td>${cols[1] === "" ? cekApa : cols[1]}</td>
+			                        <td style="text-align:right">${cols[2]}</td>
+			                        <td style="text-align:right">${cols[3]}</td>
+			                        <td style="text-align:right">${cols[4]}</td>
+			                        <td style="text-align:right">${cols[5]}</td>
+			                        <td style="text-align:right">${cols[6]}</td>
+			                        <td style="text-align:right">${cols[7]}</td>
+			                    </tr>`;
+			
+			                    allRows += row;
+			                    if (cekApa === "Semua Instansi (CPNS)"){
+			                        if (i === 4) tableContent += row.replace('style="display: none;"', 'style=""');
+			                    } else {
+			                        if (i === 3) tableContent += row.replace('style="display: none;"', 'style=""');
+			                    }
+			                }
+			            });
+			
+			            document.getElementById("data-body").innerHTML = tableContent + allRows;
+			        });
+			}
+			
+			function filterTable() {
+                let input = document.getElementById("searchInput").value.toLowerCase();
+                let rows = document.querySelectorAll("#data-body .instansi-row");
+                let selectedGid = document.getElementById("sheetSelect").value;
+                let defaultRowIndex = selectedGid === '1573445040' ? 4 : 3; // Default baris yang selalu muncul
 
-    <style>
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background-color: #f8f9fa; 
-        }
-
-        .container {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-custom {
-            background-color: green; 
-            color: white;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .btn-custom:hover {
-            background-color: darkgreen;
-            transform: scale(1.05);
-        }
-
-        .table {
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        input:focus {
-            border-color: green !important;
-            box-shadow: 0 0 10px rgba(0, 128, 0, 0.5) !important;
-        }
-
-        @keyframes blink {
-            25% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        .blink {
-            animation: blink 2s infinite;
-        }
-
-        @media (max-width: 768px) {
-            .table-responsive {
-                overflow-x: auto;
-            }
-            .container {
-                /* padding: 15px;    */
-            }
-            table td, table th { font-size: 0.8rem; }
-            .d-flex {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div style="background-color:aliceblue; position: sticky; top: 0; z-index: 1000;">
-        <h2 class="text-center pt-3" style="background-color:#0a2b75;color:white;font-weight:bold;">
-            <a target="_blank" href="https://korpri.go.id/"class="no-style"><img title="KORPRI" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Pegawai_Negeri_Sipil.svg" height="80px" width="auto"></a>
-            <br>UPDATE USUL NIP
-            <p class="text-center pb-3" style="color:gold;font-weight:120;font-size: 1.1rem;">
-                CPNS DAN PPPK T.A. 2024
-            </p></h2>
-    </div>
-<div class="container mt-4">
-
-    <div class="row mb-3">
-        <div class="col-md-6 col-lg-4 mb-3">
-            <label for="sheetSelect" class="form-label">Pilih Kategori:</label>
-            <select id="sheetSelect" class="form-select" onchange="fokusKe()">
-                <option value="1573445040">CPNS</option>
-                <option value="0">PPPK GURU</option>
-                <option value="1791141717">PPPK TEKNIS</option>
-                <option value="620150808">PPPK TENAGA KESEHATAN</option>
-            </select>
-        </div>
-    
-        <div class="col-md-6 col-lg-8 align-self-end">
-            <h5 class="text-danger mb-0 blink fw-bold text-md-end" id="update-info">Memuat data...</h5>
-        </div>
-    </div>
-    
-
-    <input type="text" id="searchInput" autofocus autocomplete="off" class="form-control mb-3" placeholder="🔍 Masukkan nama instansi..." onkeyup="filterTable()">
-
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>Instansi</th>
-                    <th>Formasi</th>
-                    <th>Lulus</th>
-                    <th>Usul Masuk</th>
-                    <th>BTS</th>
-                    <th>TMS</th>
-                    <th>Pertek Selesai</th>
-                </tr>
-            </thead>
-            <tbody id="data-body"></tbody>
-        </table>
-    </div>
-</div>
-
-<script>
-    function loadSheet(gid) {
-        const sheetUrl = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcB7YBFlcroApqO1lxmKMkrOmhbkmx6NugFMI17HM0Gb-aAPgB6TSxv7VB54o43hAX-tV0-cnjtXu/pub?output=csv&gid=${gid}`;
-
-        fetch(sheetUrl)
-            .then(response => response.text())
-            .then(csvData => {
-                const parsedData = Papa.parse(csvData, { skipEmptyLines: true }).data;
-                let updateInfo;
-                let cekApa;
-
-                if (parsedData.length > 1) {
-                    if (gid === '1573445040') {
-                        updateInfo = parsedData[0][1] || "-";
-                        cekApa = "Semua Instansi (CPNS)";
-                    } else {
-                        updateInfo = parsedData[0][0] || "-";
-                        cekApa = gid === '0' ? "Semua Instansi (PPPK GURU)" :
-                                 gid === '1791141717' ? "Semua Instansi (PPPK TEKNIS)" :
-                                 "Semua Instansi (PPPK TENAGA KESEHATAN)";
-                    }
-                    // document.getElementById("update-info").innerText = updateInfo.toLowerCase();
-                    document.getElementById("update-info").innerText = updateInfo
-                    .toLowerCase()
-                    .split(" ")
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(" ");
-
-
+                // Jika input kosong setelah di-backspace, tampilkan kembali default row
+                if (input === "") {
+                    rows.forEach((row, index) => {
+                        row.style.display = index === defaultRowIndex ? "" : "none"; // Tampilkan hanya baris default
+                    });
+                    return;
                 }
 
-                let tableContent = "";
-                let allRows = "";
+                // Pencarian hanya dari baris ke-3 ke atas
+                rows.forEach((row, index) => {
+                    if (index <= defaultRowIndex) return; // Lewati pencarian untuk baris 0, 1, dan 2
 
-                parsedData.forEach((cols, i) => {
-                    if (i === 0) return;
-
-                    if (cols.length >= 8) {
-                        let row = `<tr class="instansi-row" style="display: none;">
-                            <td>${cols[1] === "" ? cekApa : cols[1]}</td>
-                            <td style="text-align:right">${cols[2]}</td>
-                            <td style="text-align:right">${cols[3]}</td>
-                            <td style="text-align:right">${cols[4]}</td>
-                            <td style="text-align:right">${cols[5]}</td>
-                            <td style="text-align:right">${cols[6]}</td>
-                            <td style="text-align:right">${cols[7]}</td>
-                        </tr>`;
-
-                        allRows += row;
-                        if (cekApa === "Semua Instansi (CPNS)"){
-                            if (i === 4) tableContent += row.replace('style="display: none;"', 'style=""');
-                        } else {
-                            if (i === 3) tableContent += row.replace('style="display: none;"', 'style=""');
-                        }
+                    let instansi = row.cells[0].innerText.toLowerCase();
+                    if (instansi.includes(input)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
                     }
                 });
+            }
 
-                document.getElementById("data-body").innerHTML = tableContent + allRows;
-            });
-    }
-
-    function filterTable() {
-        let input = document.getElementById("searchInput").value.toLowerCase();
-        let rows = document.querySelectorAll("#data-body .instansi-row");
-
-        let selectedGid = document.getElementById("sheetSelect").value;
-
-        if (input === "") {
-            rows.forEach((row, index) => {
-                row.style.display = selectedGid === '1573445040' ? (index === 4 ? "" : "none") : (index === 3 ? "" : "none");
-            });
-        } else {
-            rows.forEach(row => {
-                let instansi = row.cells[0].innerText.toLowerCase();
-                row.style.display = instansi.includes(input) ? "" : "none";
-            });
-        }
-    }
-
-    document.getElementById("sheetSelect").addEventListener("change", function() {
-        loadSheet(this.value);
-    });
-
-    loadSheet("1573445040");
-    function fokusKe(){
-         document.getElementById("searchInput").focus();
-    }
-</script>
-<footer class="text-center" style="
-        background-color: #06070d; 
-        color: white; 
-        font-size: 0.8rem; 
-        width: 100%; 
-        position: fixed; 
-        bottom: 0;
-        left: 0;">
-        <p class="m-3">Dibuat dengan ganteng <a href="https://damz93.github.io/dedy-a-muzawwir" target="_blank" style="color: #bea411; text-decoration: none; font-weight: bold;">DAMZ</a></p>
-    </footer>
-</body>
+			
+			
+			document.getElementById("sheetSelect").addEventListener("change", function() {
+			    loadSheet(this.value);
+			});
+			
+			loadSheet("1573445040");
+			function fokusKe() {
+			 let inputField = document.getElementById("searchInput");
+			 inputField.focus();  // Fokus ke input
+			 inputField.value = "";  // Mengosongkan isi input
+			}
+			
+		</script>
+		<footer class="text-center" style="
+			background-color: #081644;         
+			color: white; 
+			font-size: 0.8rem; 
+			width: 100%; 
+			position: fixed; 
+			bottom: 0;
+			left: 0;">
+			<p class="m-3">Dibuat dengan ganteng <a href="https://damz93.github.io/dedy-a-muzawwir" target="_blank" style="color: #bea411; text-decoration: none; font-weight: bold;">D.A.M.Z</a></p>
+		</footer>
+	</body>
 </html>
