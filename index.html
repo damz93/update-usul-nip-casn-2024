@@ -9,65 +9,89 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-		<style>
-			body { 
-			font-family: 'Poppins', sans-serif;
-			/* background: url('https://matahari-textile.com/wp-content/uploads/2022/07/korpri-40s.jpg') no-repeat center center; */
-			background-size: cover;
+		<style>body {
+            font-family: 'Poppins', sans-serif;
+            /* background: url('https://matahari-textile.com/wp-content/uploads/2022/07/korpri-40s.jpg') no-repeat center center; */
+            background-size: cover;
             background-color: aliceblue;
-			position: relative;
-			height: 100vh;
-			}
-			bodaay::before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: rgba(27, 154, 222, 0.626); /* Transparansi di atas gambar */
-			backdrop-filter: blur(10px); /* Efek blur */
-			z-index: -1; /* Agar tetap di belakang konten */
-			}
-			.container {
-			background: rgba(255, 255, 255, 0.8); /* Transparan sedikit untuk kontainer */
-			border-radius: 15px;
-			padding: 20px;
-			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-			}
-			.table {
-			border-radius: 10px;
-			overflow: hidden;
-			}
-			input:focus {
-			border-color: rgba(0, 0, 255, 0.734) !important;
-			box-shadow: 0 0 10px rgba(0, 60, 128, 0.5) !important;
-			}
-			@keyframes blink {
-			25% { opacity: 1; }
-			50% { opacity: 0; }
-			100% { opacity: 1; }
-			}
-			.blink {
-			animation: blink 3s infinite;
-			}
-			@media (max-width: 768px) {
-			.table-responsive {
-			overflow-x: auto;
-			}
-			table td, table th { 
-			font-size: 0.8rem; 
-			}
-			.text-danger{
-			font-size: 1rem;                
-			text-align: center;
-			}
-			.d-flex {
-			flex-direction: column;
-			align-items: center;
-			}
-			}
-		</style>
+            position: relative;
+            height: 100vh;
+        }
+        
+        bodaay::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(27, 154, 222, 0.626);
+            /* Transparansi di atas gambar */
+            backdrop-filter: blur(10px);
+            /* Efek blur */
+            z-index: -1;
+            /* Agar tetap di belakang konten */
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            /* Transparan sedikit untuk kontainer */
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        input:focus {
+            border-color: rgba(0, 0, 255, 0.734) !important;
+            box-shadow: 0 0 10px rgba(0, 60, 128, 0.5) !important;
+        }
+        
+        @keyframes blink {
+            25% {
+                opacity: 1;
+            }
+        
+            50% {
+                opacity: 0;
+            }
+        
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        .blink {
+            animation: blink 3s infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+        
+            table td,
+            table th {
+                font-size: 0.7rem;
+            }
+        
+            .text-danger {
+                font-size: 0.9rem;
+                text-align: center;
+                margin-top: 20px;
+            }
+        
+            .d-flex {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        </style>
 	</head>
 	<body>
 		<div style="position: sticky; top: 0; z-index: 1000;">
